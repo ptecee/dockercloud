@@ -1,0 +1,6 @@
+cloudinit.sh
+.terraform.lock.hcl
+.terraform/*
+terraform.tfvars
+terraform.tfstate
+terraform.tfstate.backup
