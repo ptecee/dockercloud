@@ -1,4 +1,3 @@
-cloudinit.sh
 .terraform.lock.hcl
 .terraform/*
 terraform.tfvars

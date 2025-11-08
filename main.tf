@@ -44,7 +44,8 @@ resource "yandex_compute_instance" "docker_host" {
 
   # подкинуть публичный ключ root
   metadata = {
-    ssh-keys = "root:${file(var.def_ssh_public_key)}" # пользака поменять отличного от root
+    ssh-keys  = "ubuntu:${file(var.def_ssh_public_key)}" # пользака поменять отличного от root
+    user-data = file("scripts/cloud-init.yaml")
   }
 }
 
