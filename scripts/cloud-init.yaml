@@ -5,6 +5,7 @@ package_upgrade: true
 packages:
   - curl
   - git
+  - jq
   - golang
   - docker.io
   - docker-compose
