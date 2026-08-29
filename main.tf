@@ -1,4 +1,4 @@
-# Создание сетки с публичным ip
+# Create network with public ip address
 
 resource "yandex_vpc_network" "network" {
   name = "docker-network"
@@ -13,15 +13,15 @@ resource "yandex_vpc_subnet" "subnet" {
 
 
 
-# Создание диска и виртуальной машины
-# создание диска
+# Disc creating
 resource "yandex_compute_disk" "boot_disk" {
   name      = "boot-disk"
   zone      = "ru-central1-a"
-  image_id   = "fd8ba9d5mfvlncknt2kd" # Ubuntu 22.04 LTS
+  image_id  = "fd8ba9d5mfvlncknt2kd" # Ubuntu 22.04 LTS
   size      = 20
 }
 
+# Virtual machine creating
 resource "yandex_compute_instance" "docker_host" {
   name                      = "docker-host"
   allow_stopping_for_update = true
@@ -39,12 +39,12 @@ resource "yandex_compute_instance" "docker_host" {
 
   network_interface {
     subnet_id   = yandex_vpc_subnet.subnet.id
-    nat         =  true # получить публичный ip
+    nat         =  true # get the public ip address
   }
 
-  # подкинуть публичный ключ root
+  # pass public key of root user
   metadata = {
-    ssh-keys  = "ubuntu:${file(var.def_ssh_public_key)}" # пользака поменять отличного от root
+    ssh-keys  = "ubuntu:${file(var.def_ssh_public_key)}"
     user-data = file("scripts/cloud-init.yaml")
   }
 }

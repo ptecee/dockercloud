@@ -1,4 +1,4 @@
-# Описываем конфигурацию провайдера
+# Describe provider configuration
 
 terraform {
   required_providers {
@@ -9,10 +9,10 @@ terraform {
   required_version = ">= 0.13"
 }
 
-# переменные хранятся в terraform.tfvars
+# this vars are defined in terraform.tfvars
 provider "yandex" {
-  token = var.yandex_token
-  cloud_id = var.yandex_cloud_id
+  token     = var.yandex_token
+  cloud_id  = var.yandex_cloud_id
   folder_id = var.yandex_folder_id
-  zone = "ru-central1-a"
+  zone      = "ru-central1-a"
 }

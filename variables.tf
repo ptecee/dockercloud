@@ -1,7 +1,7 @@
 variable "yandex_token" {
     type        = string
     description = "Yandex Cloud OAuth token"
-    sensitive   = true # конфедециальные данные
+    sensitive   = true # sensetive data
 }
 
 variable "yandex_cloud_id" {
