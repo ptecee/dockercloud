@@ -1,56 +1,57 @@
 # Cloud Lab
 
-Данный код создает виртуальную машину c внешним ip в облаке Yandex Cloud.
+This terraform configuration create a virtual machine with external ip addres in Yandex Cloud infrastracture.
 
 
-## Файл `terraform.tfvars`
-Перед созданием VM, необходимо создать файл `terrafrom.tfvars` с след. переменными:
+## File `terraform.tfvars`
+Before creating VM, you need create a `terraform.tfvars` file with the following variables (`yc` commands imply that you have perviously installed Yandex CLI):
 ```tf
 yandex_token        = <yc iam create-token>
 yandex_cloud_id     = <yc config get cloud-id>
 yandex_folder_id    = <yc config get folder-id>
 ```
 
-## Создание и удаление VM
+## Creating and removing VM
 
-Применить когнфигурацию Terraform
+Apply Terraform configuration:
 ```shell
 terrafrom init
 terrafrom plan
 terrafrom apply
 ```
 
-Уничтожить ресурсы:
+Destroy resources:
 ```shell
 terraform destroy
 ```
 
-## Ресурсы
-По дефолту задано `cpu = 2` `ram = 4`. Определены в `terraform.tfvars`.  
-Переопределить можно через переменные во время выоплнения `terraform apply`. 
+## Resources
+By default, it is set `cpu = 2` and `ram = 4`. It's defined in `terraform.tfvars`.  
+You can set other vars during the `terraform.tfvars` execution with:  
 
 ```shell
-# Передать конкретные переменные
+# Pass specific vars or...
 terraform apply \
 -var="def_numbers_of_cores=8" \
 -var="def_ram_size=16"
 
-# Передать файл с переменными
+# pass the file with vars
 terraform apply \
 -var-file="dev.tfvars"
 ```
 
 
-## Проблемы которые могут возникнуть
+## Problems that may arise
 
-При возникновении ошибки в `/var/log/cloud-init-output.log`:
+If you see errors like this in file `/var/log/cloud-init-output.log` while applying `cloud-init` file:
+If you see errors like...
 ```
 2025-11-08 10:01:59,480 - __init__.py[WARNING]: Unhandled non-multipart (text/x-not-multipart) userdata: 'b'# cloud-config\\r'...'
 ```
+`# cloud-config\\r` - it means that in the file use Windows-style line wrapping (CRLF instead of LF).  
 
-`# cloud-config\\r` - это значит что в файле используются Windows-style переносы строк (CRLF вместо LF).
-
-Исправляется командой (данную команду следует выполнять до создания VM):
+You can fix this whith command:
 ```shell
 sed -i 's/\r$//' scripts/cloud-init.yaml
 ```
+> [!warning] You need execute this command before applying configuration. 
